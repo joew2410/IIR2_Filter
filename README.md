@@ -34,3 +34,5 @@ Filter function implements the IIR filtering operation element by element. Does 
             Called to pass in latest data value.
             Example:
               >filtered_data[i] = p3.filter(data[i])
+              
+ An example use of the class is given. This file takes in an audio recording of a user talking to a voice assistant in a moving car. The class is then used to apply a bandpass filter on this audio. Finally, the filtered data is output showing that the filter has been successful in removing much of the noise present.
