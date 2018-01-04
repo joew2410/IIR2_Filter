@@ -7,15 +7,11 @@ Created on Thu Oct 26 14:31:07 2017
 
 import numpy as np
 import scipy.io.wavfile as sci
-import MyAssignment3Lib as lib
 import IIR_Filter as iir
 
 
 if __name__ == "__main__":
     
-    #instantiate the class and clear all open plots
-    p1=lib.MyAssignment3Class()
-    p1.ClearFigures()
 
 
     sample_rate, data = sci.read('assignment3_noise_speech.wav')          #import the recorded wavefile
@@ -33,9 +29,7 @@ if __name__ == "__main__":
     cut=np.array([f0,f1])                                                          #define desired cutoff frequencies
     p3 = iir.IIR2Filter(order,cut,filter_type='bandpass',analogue_filter='butter',direct_form=2)  #instantiate the class, define filter type and analogue filter
     
-    #pre filtering plots
-    p1.MyPlotFunc(x_axis_time, data,linewidth=0.1, title = 'Time Domain Plot Pre-Filtering', xlabel='Time (s)', ylabel='Amplitude', filename = 'ass3_part4_unfiltered_time.pdf')                               
-    p1.MyPlotFunc(faxis, abs(np.fft.fft(data)),linewidth=0.1, title = 'Frequency Domain Plot Pre-Filtering', xlabel='Frequency (Hz)', ylabel='Amplitude (dB)', filename = 'ass3_part4_unfiltered_freq.pdf',xrange=[0,10000], ydecibels=True)                    
+                   
     
     #create an array for the filtered data
     filtered_data = np.zeros(N)                                                 
@@ -43,11 +37,7 @@ if __name__ == "__main__":
     #loop to implement the filter    
     for i in range(N):
         filtered_data[i] = p3.filter(data[i])
-        
-    #post filtering plots 
-    p1.MyPlotFunc(x_axis_time, filtered_data,linewidth=0.1, title = 'Time Domain Plot Post-Filtering', xlabel='Time (s)', ylabel='Amplitude', filename = 'ass3_part4_filtered_time.pdf')
-    p1.MyPlotFunc(faxis, abs(np.fft.fft(filtered_data)),linewidth=0.1, title = 'Frequency Domain Plot Post-Filtering', xlabel='Frequency (Hz)', ylabel='Amplitude (dB)', filename = 'ass3_part4_filtered_freq.pdf',xrange=[0,10000], ydecibels=True)
-    
+   
     #Write the processed data to an output .wav file
     filtered_data = np.int16(filtered_data)
     sci.write('assignment3_part4_filtered_noise_speech.wav', sample_rate, filtered_data)
